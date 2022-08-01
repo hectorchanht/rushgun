@@ -1,37 +1,40 @@
 import { AddIcon } from '@chakra-ui/icons';
-import { Box, IconButton, Textarea } from '@chakra-ui/react';
-// import daysjs from 'daysjs';
+import { HStack, IconButton, Textarea } from '@chakra-ui/react';
+import { useAtom } from "jotai";
 import React from 'react';
 import gun from '../libs/gun';
-const dayjs = require('dayjs')
+import { threadIdAtom } from "../libs/jotaiAtoms";
+const dayjs = require('dayjs');
+
 
 const AddPost = () => {
-  let [value, setValue] = React.useState('')
-  let handleInputChange = (e) => {
-    let inputValue = e.target.value
-    setValue(inputValue)
-  }
+  const [value, setValue] = React.useState('');
+  const [thread] = useAtom(threadIdAtom);
+  const path = React.useMemo(() => thread ? `t/${thread}` : gun?.user()?.is ? `u/${gun?.user()?.is?.alias}` : 'data', [thread, gun?.user()])
+
+  const handleInputChange = (e) => setValue(e?.target?.value);
 
   const sub = () => {
-    console.log(` AddPost.jsx --- inputValue:`, value, gun)
-    gun.get('data').put({ [dayjs().unix()]: value });
+    console.log(` AddPost.jsx --- path:`, path)
+    if (!value) return;
+
+    // if user if not login, submit to "data", other submit to "user" or "thread"
+    gun.get(path).put({ [dayjs().unix()]: value });
     setValue('');
   }
 
-  console.log(` AddPost.jsx --- dayjs.unix():`, dayjs().unix())
-
-
   return (
-    <Box>
-      {/* <Text mb='8px'>Value: {value}</Text> */}
+    <HStack>
       <Textarea
         value={value}
         onChange={handleInputChange}
-        placeholder='say any words you want'
-      // size='sm'
+        placeholder='say any thing you want'
       />
-      <IconButton onClick={sub} aria-label='say any words you want' icon={<AddIcon />} />
-    </Box>
+      <IconButton
+        onClick={sub}
+        icon={<AddIcon />}
+      />
+    </HStack>
   );
 }
 

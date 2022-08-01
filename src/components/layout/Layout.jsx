@@ -6,11 +6,10 @@ import Head from 'next/head';
 
 const Layout = ({ children }) => {
   return (
-    <Container maxW={'888px'} display={'flex'}
-      flexDirection={'column'} height={'100vh'}>
+    <Container maxW={'888px'} display={'flex'} flexDirection={'column'} height={'100vh'}>
       <Head>
-        <title>rushbin-clipboard</title>
-        <meta name="description" content="🤑Your private clipboard on cloud for FREE 🤑" />
+        <title>rushgun-clipboard</title>
+        <meta name="description" content="🔫faster than before, the decentralized clipboard with Gun.js🔫" />
         <link rel="icon" href="/hating-cat.jpg" />
       </Head>
       <Header />
