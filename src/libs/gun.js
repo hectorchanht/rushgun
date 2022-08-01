@@ -4,8 +4,7 @@ import 'gun/sea';
 
 const gun = Gun({
   peers: [
-    'http://localhost:8964/gun',
-    'http://gun-manhattan.herokuapp.com/gun',
+    'https://rushgun-backend.herokuapp.com/gun',
   ],
 });
 
