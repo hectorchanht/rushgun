@@ -10,7 +10,7 @@ import Header from "./Header";
 const Layout = ({ children }) => {
   const [alertMsg, setAlertMsg] = useAtom(alertMsgAtom);
   return (
-    <Container maxW={'888px'} display={'flex'} flexDirection={'column'} height={'100vh'}>
+    <Container maxW={'888px'} display={'flex'} flexDirection={'column'} height={'94vh'}>
       <Head>
         <title>rushgun-clipboard</title>
         <meta name="description" content="🔫faster than before, the decentralized clipboard with Gun.js🔫" />
