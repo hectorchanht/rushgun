@@ -1,6 +1,6 @@
 import React from 'react';
 import AddPost from '../components/AddPost';
-import Layout from '../components/Layout';
+import Layout from '../components/Layout/index';
 import PostList from '../components/PostList';
 import gun from '../libs/gun';
 
