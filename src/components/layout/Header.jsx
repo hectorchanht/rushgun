@@ -19,8 +19,6 @@ const Header = () => {
   const setPassword = (e) => setUser((d) => ({ ...d, password: e.target.value }));
   const transErrMsg = (msg) => msg.toLowerCase().replace('User', 'Secret').replace('user', 'secret').replace('created', 'taken');
 
-
-
   const registerGun = () => {
     gun.user().create(username, password, (d) => {
       if (d.err) {
@@ -78,7 +76,7 @@ const Header = () => {
 
   return (
     <Box as={"header"} mb={2}>
-      <HStack p={2} borderRadius={8} boxShadow="lg" spacing="24px" justifyContent={"space-between"}>
+      <HStack p={2} borderRadius={8} boxShadow="lg" spacing={'4px'} justifyContent={"space-between"}>
         {/* <Image src={"/hating-cat.jpg"} alt={"logo"} height={"38px"} width={"38px"} /> */}
 
         <ToggleColor />
