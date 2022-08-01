@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
         {children}
       </Box>
       <AlertMsg msg={alertMsg} setMsg={setAlertMsg} />
-      <Footer />
+      {/* <Footer /> */}
     </Container>
   )
 }
