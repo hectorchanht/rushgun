@@ -1,32 +1,25 @@
-import { ArrowForwardIcon, CloseIcon, DeleteIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { Alert, Box, Button, HStack, IconButton, Input, useColorMode } from "@chakra-ui/react";
+import { AddIcon, ArrowRightIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { Box, HStack, IconButton, Input, useColorMode } from "@chakra-ui/react";
 import { useAtom } from "jotai";
-import Image from "next/image";
 import React from "react";
 import gun from "../../libs/gun";
 import { alertMsgAtom, aliasAtom, threadIdAtom } from "../../libs/jotaiAtoms";
 
-
-const AlertMsg = ({ msg }) => {
-  if (!msg) return null;
-  return <Alert alignItems='center' justifyContent='center'
-    textAlign='center' status="error">
-    {msg}
-  </Alert>;
-};
 
 const defaultUser = { username: '', password: '' };
 
 const Header = () => {
   const [alertMsg, setAlertMsg] = useAtom(alertMsgAtom);
   const [thread, setThreadIdAtom] = useAtom(threadIdAtom);
-  const [alias, setAliasAtom] = useAtom(aliasAtom);
+  const [_, setAliasAtom] = useAtom(aliasAtom);
   const { toggleColorMode, colorMode } = useColorMode();
   const [{ username, password, }, setUser] = React.useState(defaultUser);
 
   const setUsername = (e) => setUser((d) => ({ ...d, username: e.target.value }));
   const setPassword = (e) => setUser((d) => ({ ...d, password: e.target.value }));
   const transErrMsg = (msg) => msg.toLowerCase().replace('User', 'Secret').replace('user', 'secret').replace('created', 'taken');
+
+
 
   const registerGun = () => {
     gun.user().create(username, password, (d) => {
@@ -72,25 +65,21 @@ const Header = () => {
       setUser(defaultUser);
       setAliasAtom('');
     }
-    console.log({username, password})
     // const deleteUser = () => gun.user().delete(username, password);
 
     return <>
       <Box>
-        {gun.user().is.alias}
+        🔫{' '}{gun.user()?.is?.alias || '404'}{' '}🎸
       </Box>
       {/* <IconButton variant={"ghost"} onClick={deleteUser} icon={<DeleteIcon />} /> */}
-
-      <Button variant={"ghost"} onClick={logout}>
-        close
-      </Button>
+      <IconButton variant={"ghost"} onClick={logout} icon={<CloseIcon />} />
     </>
   }
 
   return (
-    <Box as={"header"} m={2}>
+    <Box as={"header"} mb={2}>
       <HStack p={2} borderRadius={8} boxShadow="lg" spacing="24px" justifyContent={"space-between"}>
-        <Image src={"/hating-cat.jpg"} alt={"logo"} height={"38px"} width={"38px"} />
+        {/* <Image src={"/hating-cat.jpg"} alt={"logo"} height={"38px"} width={"38px"} /> */}
 
         <ToggleColor />
 
@@ -112,16 +101,14 @@ const Header = () => {
 
                   {password.length > 4 &&
                     <>
-                      <Button variant={"ghost"} onClick={registerGun}>take</Button>
-                      <Button variant={"ghost"} onClick={loginGun}>open</Button>
+                      <IconButton variant={"ghost"} onClick={registerGun} icon={<AddIcon />} />
+                      {/* <Button variant={"ghost"} onClick={loginGun}>open</Button> */}
                     </>
                   }
-                  <IconButton isDisabled={!username.length} variant={"ghost"} onClick={setThread} icon={<ArrowForwardIcon />} />
+                  <IconButton isDisabled={!username.length || alertMsg.length} variant={"ghost"} onClick={password.length ? loginGun : setThread} icon={<ArrowRightIcon />} />
                 </>
               ))}
       </HStack>
-
-      <AlertMsg msg={alertMsg} />
     </Box>
   );
 };

@@ -1,9 +1,9 @@
-import { AddIcon } from '@chakra-ui/icons';
+import { CheckIcon } from '@chakra-ui/icons';
 import { HStack, IconButton, Textarea } from '@chakra-ui/react';
 import { useAtom } from "jotai";
 import React from 'react';
 import gun from '../libs/gun';
-import { threadIdAtom,aliasAtom } from "../libs/jotaiAtoms";
+import { aliasAtom, threadIdAtom } from "../libs/jotaiAtoms";
 const dayjs = require('dayjs');
 
 
@@ -38,8 +38,10 @@ const AddPost = () => {
         placeholder='leave secrets here for people to find ~'
       />
       <IconButton
+        isDisabled={!value}
+        variant={"ghost"}
         onClick={sub}
-        icon={<AddIcon />}
+        icon={<CheckIcon />}
       />
     </HStack>
   );

@@ -1,10 +1,14 @@
 import { Box, Container } from "@chakra-ui/react";
+import { useAtom } from "jotai";
+import Head from 'next/head';
+import { alertMsgAtom } from "../../libs/jotaiAtoms";
+import AlertMsg from "../AlertMsg";
 import Footer from "./Footer";
 import Header from "./Header";
 
-import Head from 'next/head';
 
 const Layout = ({ children }) => {
+  const [alertMsg, setAlertMsg] = useAtom(alertMsgAtom);
   return (
     <Container maxW={'888px'} display={'flex'} flexDirection={'column'} height={'100vh'}>
       <Head>
@@ -16,6 +20,7 @@ const Layout = ({ children }) => {
       <Box as={'main'} flex={1}>
         {children}
       </Box>
+      <AlertMsg msg={alertMsg} setMsg={setAlertMsg} />
       <Footer />
     </Container>
   )

@@ -9,7 +9,7 @@ const GithubIcon = ({ colorMode, ...props }) => (
 const Footer = () => {
   const { colorMode } = useColorMode();
 
-  return <Box textAlign={'center'} as="footer" mt="auto" pt={12}>
+  return <Box textAlign={'center'} as="footer" mt="auto" >
     <a href="https://github.com/hectorchanht/rushgun" target="_blank" rel="noopener noreferrer" >
       <GithubIcon colorMode={colorMode} /> source code
     </a>
