@@ -8,7 +8,7 @@ import { threadIdAtom } from "../libs/jotaiAtoms";
 const PostList = () => {
   const [allPosts, setAllPosts] = React.useState([]);
   const [thread] = useAtom(threadIdAtom);
-  const [{ oldPath, oldThread }, setOldParam] = React.useState({ oldPath: '', oldThread: '' })
+  const [{ oldPath }, setOldParam] = React.useState({ oldPath: '', oldThread: '' })
 
   const path = React.useMemo(
     () => thread
@@ -17,15 +17,16 @@ const PostList = () => {
         ? `u/${gun?.user()?.is?.alias}`
         : 'data'
     , [thread, gun?.user()?.is]
-  )
+  );
 
   React.useEffect(() => {
+    // show empty for fresh new thread
     if (path !== oldPath) {
       setAllPosts([]);
     }
     setOldParam(d => ({ ...d, oldPath: path }));
+    
     gun.get(path).on((d) => setAllPosts(parseD(d)));
-
   }, [gun.user(), thread, path]);
 
 
