@@ -10,16 +10,27 @@ const dayjs = require('dayjs');
 const AddPost = () => {
   const [value, setValue] = React.useState('');
   const [thread] = useAtom(threadIdAtom);
-  const path = React.useMemo(() => thread ? `t/${thread}` : gun?.user()?.is ? `u/${gun?.user()?.is?.alias}` : 'data', [thread, gun?.user()])
 
+  const path = React.useMemo(
+    () => thread
+      ? `t/${thread}`
+      : gun?.user()?.is
+        ? `u/${gun?.user()?.is?.alias}`
+        : 'data'
+    , [thread, gun?.user()?.is]
+  )
   const handleInputChange = (e) => setValue(e?.target?.value);
 
   const sub = () => {
-    console.log(` AddPost.jsx --- path:`, path)
+    console.log(` AddPost.jsx -subsubsub-- path:`, path)
     if (!value) return;
 
-    // if user if not login, submit to "data", other submit to "user" or "thread"
-    gun.get(path).put({ [dayjs().unix()]: value });
+    if (gun?.user()?.is) {
+      gun?.user().get('data').put({ [dayjs().unix()]: value });
+    } else {
+      gun.get(path).put({ [dayjs().unix()]: value });
+    }
+
     setValue('');
   }
 
