@@ -1,10 +1,10 @@
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { ArrowForwardIcon, CloseIcon, DeleteIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Alert, Box, Button, HStack, IconButton, Input, useColorMode } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import Image from "next/image";
 import React from "react";
 import gun from "../../libs/gun";
-import { alertMsgAtom, threadIdAtom } from "../../libs/jotaiAtoms";
+import { alertMsgAtom, aliasAtom, threadIdAtom } from "../../libs/jotaiAtoms";
 
 
 const AlertMsg = ({ msg }) => {
@@ -20,17 +20,20 @@ const defaultUser = { username: '', password: '' };
 const Header = () => {
   const [alertMsg, setAlertMsg] = useAtom(alertMsgAtom);
   const [thread, setThreadIdAtom] = useAtom(threadIdAtom);
+  const [alias, setAliasAtom] = useAtom(aliasAtom);
   const { toggleColorMode, colorMode } = useColorMode();
   const [{ username, password, }, setUser] = React.useState(defaultUser);
 
   const setUsername = (e) => setUser((d) => ({ ...d, username: e.target.value }));
   const setPassword = (e) => setUser((d) => ({ ...d, password: e.target.value }));
+  const transErrMsg = (msg) => msg.toLowerCase().replace('User', 'Secret').replace('user', 'secret').replace('created', 'taken');
 
   const registerGun = () => {
     gun.user().create(username, password, (d) => {
       if (d.err) {
-        setAlertMsg(d.err);
+        setAlertMsg(transErrMsg(d.err));
       } else {
+        setAliasAtom(username)
         setUser(dd => ({ ...dd, ...d }))
         setAlertMsg("");
       }
@@ -40,8 +43,9 @@ const Header = () => {
   const loginGun = () => {
     gun.user().auth(username, password, (d) => {
       if (d.err) {
-        setAlertMsg(d.err);
+        setAlertMsg(transErrMsg(d.err));
       } else {
+        setAliasAtom(username)
         setUser(dd => ({ ...dd, ...d }))
         setAlertMsg("");
       }
@@ -63,13 +67,22 @@ const Header = () => {
   />;
 
   const IsLogin = () => {
-    const logout = () => gun.user().leave().then(() => setUser(defaultUser))
+    const logout = () => {
+      gun.user().leave();
+      setUser(defaultUser);
+      setAliasAtom('');
+    }
+    console.log({username, password})
+    // const deleteUser = () => gun.user().delete(username, password);
+
     return <>
       <Box>
         {gun.user().is.alias}
       </Box>
+      {/* <IconButton variant={"ghost"} onClick={deleteUser} icon={<DeleteIcon />} /> */}
+
       <Button variant={"ghost"} onClick={logout}>
-        logout
+        close
       </Button>
     </>
   }
@@ -88,24 +101,22 @@ const Header = () => {
               ? (
                 <>
                   <Box>@{thread}</Box>
-                  <Button variant={"ghost"} onClick={exitThread}>
-                    exit
-                  </Button>
+                  <IconButton variant={"ghost"} onClick={exitThread} icon={<CloseIcon />} />
                 </>
               ) : (
                 <>
-                  <Input value={username} width="auto" placeholder="username/thread" onChange={setUsername} />
+                  <Input value={username} width="auto" placeholder="secret token" onChange={setUsername} />
                   {username && username.length >= 4 && (
                     <Input value={password} width="auto" placeholder="password" onChange={setPassword} />
                   )}
 
                   {password.length > 4 &&
                     <>
-                      <Button variant={"ghost"} onClick={registerGun}>Register</Button>
-                      <Button variant={"ghost"} onClick={loginGun}>Login</Button>
+                      <Button variant={"ghost"} onClick={registerGun}>take</Button>
+                      <Button variant={"ghost"} onClick={loginGun}>open</Button>
                     </>
                   }
-                  <Button isDisabled={!username.length} variant={"ghost"} onClick={setThread}>Thread</Button>
+                  <IconButton isDisabled={!username.length} variant={"ghost"} onClick={setThread} icon={<ArrowForwardIcon />} />
                 </>
               ))}
       </HStack>
