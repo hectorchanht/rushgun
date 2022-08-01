@@ -10,7 +10,7 @@ const Footer = () => {
   const { colorMode } = useColorMode();
 
   return <Box textAlign={'center'} as="footer" mt="auto" pt={12}>
-    <a href="https://github.com/hectorchanht/rushbin-clipboard" target="_blank" rel="noopener noreferrer" >
+    <a href="https://github.com/hectorchanht/rushgun" target="_blank" rel="noopener noreferrer" >
       <GithubIcon colorMode={colorMode} /> source code
     </a>
   </Box>
