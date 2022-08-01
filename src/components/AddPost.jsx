@@ -16,7 +16,7 @@ const AddPost = () => {
       ? `t/${thread}`
       : gun?.user()?.is
         ? `u/${gun?.user()?.is?.alias}`
-        : 'data'
+        : 'd/public'
     , [thread, gun?.user()?.is]
   )
   const handleInputChange = (e) => setValue(e?.target?.value);
@@ -25,11 +25,13 @@ const AddPost = () => {
     console.log(` AddPost.jsx -subsubsub-- path:`, path)
     if (!value) return;
 
-    if (gun?.user()?.is) {
-      gun?.user().get('data').put({ [dayjs().unix()]: value });
-    } else {
-      gun.get(path).put({ [dayjs().unix()]: value });
-    }
+    // if (gun?.user()?.is) {
+    //   gun?.user().get('d/public').put({ [dayjs().unix()]: value });
+    // } else {
+    //   gun.get(path).put({ [dayjs().unix()]: value });
+    // }
+
+    gun.get(path).put({ [dayjs().unix()]: value });
 
     setValue('');
   }

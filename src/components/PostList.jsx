@@ -15,9 +15,10 @@ const PostList = () => {
       ? `t/${thread}`
       : gun?.user()?.is
         ? `u/${gun?.user()?.is?.alias}`
-        : 'data'
+        : 'd/public'
     , [thread, gun?.user()?.is]
   );
+console.log(` PostList.jsx --- path:`, path)
 
   React.useEffect(() => {
     // show empty for fresh new thread
@@ -25,9 +26,9 @@ const PostList = () => {
       setAllPosts([]);
     }
     setOldParam(d => ({ ...d, oldPath: path }));
-    
+
     gun.get(path).on((d) => setAllPosts(parseD(d)));
-  }, [gun.user(), thread, path]);
+  }, [gun.user(), gun?.user()?.is, thread, path]);
 
 
   const parseD = (d) => {
