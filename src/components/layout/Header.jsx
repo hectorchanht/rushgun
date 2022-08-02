@@ -29,11 +29,8 @@ const Header = () => {
     function handleKeyDown(e) {
       if (e.key === 'Escape') {
         exitThread()
-      } else {
-        setInputUsernameFocus();
       }
     }
-
     document.addEventListener('keydown', handleKeyDown);
 
     // Don't forget to clean up
@@ -43,12 +40,12 @@ const Header = () => {
   }, []);
 
   React.useEffect(() => {
-    const { secret } = router.query;
+    const secret = router.asPath.slice(1);
 
     if (secret) {
-      setThreadIdAtom(secret)
+      setThreadIdAtom(secret);
     }
-  }, [router.query])
+  }, [router.asPath]);
 
   const setUsername = (e) => setUser((d) => ({ ...d, username: e.target.value }));
   const setPassword = (e) => setUser((d) => ({ ...d, password: e.target.value }));
@@ -98,7 +95,7 @@ const Header = () => {
 
     return <>
       <Box>
-        🔫{' '}{gun.user()?.is?.alias || '404'}{' '}🎸
+        u/{gun.user()?.is?.alias}
       </Box>
       {/* <IconButton variant={"ghost"} onClick={deleteUser} icon={<DeleteIcon />} /> */}
       <IconButton variant={"ghost"} onClick={logout} color={'red'} icon={<CloseIcon />} />
@@ -120,12 +117,12 @@ const Header = () => {
             : (thread
               ? (
                 <>
-                  <Box>@{thread}</Box>
+                  <Box>t/{thread}</Box>
                   <IconButton variant={"ghost"} onClick={exitThread} color={'red.600'} icon={<CloseIcon />} />
                 </>
               ) : (
                 <>
-                  <Input 
+                  <Input
                     ref={usernameRef}
                     value={username} width="auto" placeholder="secret token"
                     onChange={setUsername} onKeyDown={handleEnterShortSecret} />
