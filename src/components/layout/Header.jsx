@@ -1,4 +1,4 @@
-import { AddIcon, ArrowRightIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { ArrowRightIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Box, HStack, IconButton, Input, useColorMode } from "@chakra-ui/react";
 import { useAtom } from "jotai";
 import { useRouter } from 'next/router';
@@ -66,7 +66,8 @@ const Header = () => {
   const loginGun = () => {
     gun.user().auth(username, password, (d) => {
       if (d.err) {
-        setAlertMsg(transErrMsg(d.err));
+        registerGun();
+        // setAlertMsg(transErrMsg(d.err));
       } else {
         setAliasAtom(username)
         setUser(dd => ({ ...dd, ...d }))
@@ -74,8 +75,6 @@ const Header = () => {
       }
     });
   };
-
-
 
   const ToggleColor = () => <IconButton
     variant={"ghost"}
@@ -126,22 +125,13 @@ const Header = () => {
                     ref={usernameRef}
                     value={username} width="auto" placeholder="secret token"
                     onChange={setUsername} onKeyDown={handleEnterShortSecret} />
-                  {username && username.length >= 4 && (
-                    <Input
-                      value={password} width="auto" onChange={setPassword}
-                      placeholder="password (8 characters up)" />
-                  )}
 
-                  {password.length >= 8 && <>
-                    <IconButton
-                      color={'#00A3C4'} variant={"ghost"} isDisabled={alertMsg.length}
-                      onClick={registerGun} icon={<AddIcon />} />
-                    {/* <Button variant={"ghost"} onClick={loginGun}>open</Button> */}
-                  </>}
+                  {username && username.length >= 4 && (
+                    <Input value={password} width="auto" onChange={setPassword} placeholder="password" />)}
 
                   <IconButton
                     isDisabled={!username.length || alertMsg.length} variant={"ghost"}
-                    onClick={password.length ? loginGun : setThread}
+                    onClick={password.length >= 8 ? loginGun : setThread}
                     color={password.length >= 8 ? '#805AD5' : 'green.400'} icon={<ArrowRightIcon />} />
                 </>
               ))}
