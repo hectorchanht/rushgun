@@ -1,19 +1,54 @@
 import { AddIcon, ArrowRightIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { Box, HStack, IconButton, Input, useColorMode } from "@chakra-ui/react";
 import { useAtom } from "jotai";
+import { useRouter } from 'next/router';
 import React from "react";
 import gun from "../../libs/gun";
+import { useFocus } from "../../libs/hooks";
 import { alertMsgAtom, aliasAtom, threadIdAtom } from "../../libs/jotaiAtoms";
-
 
 const defaultUser = { username: '', password: '' };
 
 const Header = () => {
+  const router = useRouter();
+  const [_, setAliasAtom] = useAtom(aliasAtom);
   const [alertMsg, setAlertMsg] = useAtom(alertMsgAtom);
   const [thread, setThreadIdAtom] = useAtom(threadIdAtom);
-  const [_, setAliasAtom] = useAtom(aliasAtom);
+
   const { toggleColorMode, colorMode } = useColorMode();
-  const [{ username, password, }, setUser] = React.useState(defaultUser);
+  const [{ username, password }, setUser] = React.useState(defaultUser);
+  const [usernameRef, setInputUsernameFocus] = useFocus()
+
+  const setThread = () => setThreadIdAtom(username);
+  const exitThread = () => {
+    setThreadIdAtom('');
+    setUser(d => ({ ...d, username: '' }));
+  };
+
+  React.useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.key === 'Escape') {
+        exitThread()
+      } else {
+        setInputUsernameFocus();
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+    // Don't forget to clean up
+    return function cleanup() {
+      document.removeEventListener('keydown', handleKeyDown);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const { secret } = router.query;
+
+    if (secret) {
+      setThreadIdAtom(secret)
+    }
+  }, [router.query])
 
   const setUsername = (e) => setUser((d) => ({ ...d, username: e.target.value }));
   const setPassword = (e) => setUser((d) => ({ ...d, password: e.target.value }));
@@ -43,15 +78,11 @@ const Header = () => {
     });
   };
 
-  const setThread = () => setThreadIdAtom(username);
-  const exitThread = () => {
-    setThreadIdAtom('');
-    setUser(d => ({ ...d, username: '' }));
-  };
+
 
   const ToggleColor = () => <IconButton
     variant={"ghost"}
-    colorScheme="blue"
+    color={colorMode === "light" ? "blue.400" : 'red.400'}
     aria-label="toggle ColorMode"
     icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
     onClick={toggleColorMode}
@@ -70,9 +101,11 @@ const Header = () => {
         🔫{' '}{gun.user()?.is?.alias || '404'}{' '}🎸
       </Box>
       {/* <IconButton variant={"ghost"} onClick={deleteUser} icon={<DeleteIcon />} /> */}
-      <IconButton variant={"ghost"} onClick={logout} icon={<CloseIcon />} />
+      <IconButton variant={"ghost"} onClick={logout} color={'red'} icon={<CloseIcon />} />
     </>
-  }
+  };
+
+  const handleEnterShortSecret = (event) => (event.key === 'Enter' && password.length === 0) && setThread();
 
   return (
     <Box as={"header"} mb={2}>
@@ -88,22 +121,29 @@ const Header = () => {
               ? (
                 <>
                   <Box>@{thread}</Box>
-                  <IconButton variant={"ghost"} onClick={exitThread} icon={<CloseIcon />} />
+                  <IconButton variant={"ghost"} onClick={exitThread} color={'red.600'} icon={<CloseIcon />} />
                 </>
               ) : (
                 <>
-                  <Input value={username} width="auto" placeholder="secret token" onChange={setUsername} />
+                  <Input 
+                    ref={usernameRef}
+                    value={username} width="auto" placeholder="secret token"
+                    onChange={setUsername} onKeyDown={handleEnterShortSecret} />
                   {username && username.length >= 4 && (
-                    <Input value={password} width="auto" placeholder="password" onChange={setPassword} />
+                    <Input
+                      value={password} width="auto" onChange={setPassword}
+                      placeholder="password (8 characters up)" />
                   )}
 
-                  {password.length > 4 &&
-                    <>
-                      <IconButton variant={"ghost"} onClick={registerGun} icon={<AddIcon />} />
-                      {/* <Button variant={"ghost"} onClick={loginGun}>open</Button> */}
-                    </>
-                  }
-                  <IconButton isDisabled={!username.length || alertMsg.length} variant={"ghost"} onClick={password.length ? loginGun : setThread} icon={<ArrowRightIcon />} />
+                  {password.length > 4 && <>
+                    <IconButton variant={"ghost"} onClick={registerGun} icon={<AddIcon />} />
+                    {/* <Button variant={"ghost"} onClick={loginGun}>open</Button> */}
+                  </>}
+
+                  <IconButton
+                    isDisabled={!username.length || alertMsg.length} variant={"ghost"}
+                    onClick={password.length ? loginGun : setThread}
+                    color='green.400' icon={<ArrowRightIcon />} />
                 </>
               ))}
       </HStack>
