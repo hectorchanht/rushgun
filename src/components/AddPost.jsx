@@ -42,7 +42,7 @@ const AddPost = () => {
         placeholder='leave secrets here for people to find ~'
       />
       <IconButton
-        color={'green.400'}
+        color={!value ? 'white' : 'cyan.400'}
         isDisabled={!value}
         variant={"ghost"}
         onClick={submitValue}
