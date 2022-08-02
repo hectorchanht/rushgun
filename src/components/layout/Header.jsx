@@ -132,15 +132,15 @@ const Header = () => {
                       placeholder="password (8 characters up)" />
                   )}
 
-                  {password.length > 4 && <>
-                    <IconButton variant={"ghost"} onClick={registerGun} icon={<AddIcon />} />
+                  {password.length >= 8 && <>
+                    <IconButton color={'#00A3C4'} variant={"ghost"} onClick={registerGun} icon={<AddIcon />} />
                     {/* <Button variant={"ghost"} onClick={loginGun}>open</Button> */}
                   </>}
 
                   <IconButton
                     isDisabled={!username.length || alertMsg.length} variant={"ghost"}
                     onClick={password.length ? loginGun : setThread}
-                    color='green.400' icon={<ArrowRightIcon />} />
+                    color={password.length >= 8 ? '#805AD5' : 'green.400'} icon={<ArrowRightIcon />} />
                 </>
               ))}
       </HStack>

@@ -11,7 +11,7 @@ const Footer = () => {
 
   return <Box textAlign={'center'} as="footer" mt="auto" >
     <a href="https://github.com/hectorchanht/rushgun" target="_blank" rel="noopener noreferrer" >
-      <GithubIcon colorMode={colorMode} /> source code
+      <GithubIcon colorMode={colorMode} />
     </a>
   </Box>
 };
