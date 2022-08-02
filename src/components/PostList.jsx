@@ -20,9 +20,7 @@ const PostList = () => {
   );
 
   React.useEffect(() => {
-    setAllPosts([]);
-    gun.get(path).once((d) => setAllPosts(parseD(d)));
-    
+    setAllPosts([]);  // keep this line to make 'password' functioning
     gun.get(path).on((d) => setAllPosts(parseD(d)));
   }, [path]);
 
