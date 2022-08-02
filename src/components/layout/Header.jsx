@@ -47,7 +47,7 @@ const Header = () => {
     }
   }, [router.asPath]);
 
-  const setUsername = (e) => setUser((d) => ({ ...d, username: e.target.value }));
+  const setUsername = (e) => setUser((d) => ({ ...d, username: e.target.value.replace(/ /g, '') }));
   const setPassword = (e) => setUser((d) => ({ ...d, password: e.target.value }));
   const transErrMsg = (msg) => msg.toLowerCase().replace('User', 'Secret').replace('user', 'secret').replace('created', 'taken');
 
