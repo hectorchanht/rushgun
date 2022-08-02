@@ -133,7 +133,9 @@ const Header = () => {
                   )}
 
                   {password.length >= 8 && <>
-                    <IconButton color={'#00A3C4'} variant={"ghost"} onClick={registerGun} icon={<AddIcon />} />
+                    <IconButton
+                      color={'#00A3C4'} variant={"ghost"} isDisabled={alertMsg.length}
+                      onClick={registerGun} icon={<AddIcon />} />
                     {/* <Button variant={"ghost"} onClick={loginGun}>open</Button> */}
                   </>}
 
