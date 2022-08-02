@@ -17,7 +17,7 @@ const Layout = ({ children }) => {
         <link rel="icon" href="/gun-logo.png" />
       </Head>
       <Header />
-      <Box as={'main'} flex={1}>
+      <Box p={2} as={'main'} flex={1}>
         {children}
       </Box>
       <AlertMsg msg={alertMsg} setMsg={setAlertMsg} />
