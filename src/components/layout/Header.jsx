@@ -106,7 +106,7 @@ const Header = () => {
   return (
     <Box as={"header"} mb={2}>
       <HStack p={2} borderRadius={8} boxShadow="lg" spacing={'4px'} justifyContent={"space-between"}>
-        {/* <Image src={"/hating-cat.jpg"} alt={"logo"} height={"38px"} width={"38px"} /> */}
+        {/* <Image src={"/gun-logo.png"} alt={"logo"} height={"38px"} width={"38px"} /> */}
 
         <ToggleColor />
 

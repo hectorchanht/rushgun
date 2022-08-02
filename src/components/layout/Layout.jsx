@@ -12,9 +12,9 @@ const Layout = ({ children }) => {
   return (
     <Container maxW={'888px'} display={'flex'} flexDirection={'column'} height={'calc(92vh)'}>
       <Head>
-        <title>🔫 rushgun | rush the secret with 🔫</title>
+        <title>rushgun | rush the secret with 🔫</title>
         <meta name="description" content="🔫faster than before, the decentralized clipboard with Gun.js🔫" />
-        <link rel="icon" href="/hating-cat.jpg" />
+        <link rel="icon" href="/gun-logo.png" />
       </Head>
       <Header />
       <Box as={'main'} flex={1}>
