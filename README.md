@@ -1,14 +1,15 @@
-Public Clipboard data and secret places identified by token and/or password
+# 🔫rushgun
 
+Show your imagination on how this simple app can be
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+Text data are stored in decentralized database using [Gun.js](gun.eco) in 3 levels
+1. public landing page
+2. a specific secret page identified by token (Green Right Arrow)
+3. secret token with corresponding password for the one and only holy page (Purple Right Arrow)
 
 ## Getting Started
 
-Fork [gun relay server](https://github.com/amark/gun#deploy) and deploy in [Heroku](https://heroku.com/deploy?template=https://github.com/amark/gun)
-
-
-Run the development server:
+Run the development server
 
 ```bash
 npm run dev
@@ -17,3 +18,9 @@ yarn dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## For production
+
+Fork [gun relay server](https://github.com/amark/gun#deploy)
+
+Deploy to [Heroku](https://heroku.com/deploy?template=https://github.com/amark/gun)
