@@ -11,7 +11,7 @@ const AlertMsg = ({ msg, setMsg }) => {
   if (!msg) return null;
 
   return <Alert alignItems='center' justifyContent='center' bg={'#AB47BC'}
-    borderRadius={8} AlertShadow="lg" position={'fixed'} bottom={'24px'} left={'0'}
+    borderRadius={8} position={'fixed'} bottom={'24px'} left={'0'}
     textAlign='center' status="error">
     {msg}
   </Alert>;
