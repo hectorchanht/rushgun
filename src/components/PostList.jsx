@@ -3,12 +3,14 @@ import { useAtom } from "jotai";
 import React from "react";
 import gun from "../libs/gun";
 import { aliasAtom, threadIdAtom } from "../libs/jotaiAtoms";
+import { useRouter } from 'next/router';
 
 
 const PostList = () => {
   const [allPosts, setAllPosts] = React.useState([]);
   const [thread] = useAtom(threadIdAtom);
   const [alias] = useAtom(aliasAtom);
+  const router = useRouter();
 
   const path = React.useMemo(
     () => thread
@@ -21,7 +23,11 @@ const PostList = () => {
 
   React.useEffect(() => {
     setAllPosts([]);  // keep this line to make 'password' functioning
-    gun.get(path).on((d) => setAllPosts(parseD(d)));
+    if (alias) {
+      gun.user().get(path).on(d => {setAllPosts(parseD(d))});
+    } else {
+      gun.get(path).on((d) => {setAllPosts(parseD(d))});
+    }
   }, [path]);
 
   const parseD = (d) => {
