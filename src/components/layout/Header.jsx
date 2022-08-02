@@ -19,7 +19,7 @@ const Header = () => {
   const [{ username, password }, setUser] = React.useState(defaultUser);
   const [usernameRef, setInputUsernameFocus] = useFocus()
 
-  const setThread = () => setThreadIdAtom(username);
+  const setThread = () => setThreadIdAtom(username.replace(/ /g, ''));
   const exitThread = () => {
     setThreadIdAtom('');
     setUser(d => ({ ...d, username: '' }));
@@ -47,12 +47,12 @@ const Header = () => {
     }
   }, [router.asPath]);
 
-  const setUsername = (e) => setUser((d) => ({ ...d, username: e.target.value.replace(/ /g, '') }));
+  const setUsername = (e) => setUser((d) => ({ ...d, username: e.target.value }));
   const setPassword = (e) => setUser((d) => ({ ...d, password: e.target.value }));
   const transErrMsg = (msg) => msg.toLowerCase().replace('User', 'Secret').replace('user', 'secret').replace('created', 'taken');
 
   const registerGun = () => {
-    gun.user().create(username, password, (d) => {
+    gun.user().create(username.replace(/ /g, ''), password.replace(/ /g, ''), (d) => {
       if (d.err) {
         setAlertMsg(transErrMsg(d.err));
       } else {
@@ -64,7 +64,7 @@ const Header = () => {
   };
 
   const loginGun = () => {
-    gun.user().auth(username, password, (d) => {
+    gun.user().auth(username.replace(/ /g, ''), password.replace(/ /g, ''), (d) => {
       if (d.err) {
         registerGun();
         // setAlertMsg(transErrMsg(d.err));
