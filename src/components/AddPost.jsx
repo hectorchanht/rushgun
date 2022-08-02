@@ -22,10 +22,14 @@ const AddPost = () => {
   )
   const handleInputChange = (e) => setValue(e?.target?.value);
 
-  const sub = () => {
+  const submitValue = () => {
     if (!value) return;
 
-    gun.get(path).put({ [dayjs().unix()]: value });
+    if (alias) {
+      gun.user().get(path).put({ [dayjs().unix()]: value });
+    } else {
+      gun.get(path).put({ [dayjs().unix()]: value });
+    }
 
     setValue('');
   }
@@ -38,9 +42,10 @@ const AddPost = () => {
         placeholder='leave secrets here for people to find ~'
       />
       <IconButton
+        color={'green.400'}
         isDisabled={!value}
         variant={"ghost"}
-        onClick={sub}
+        onClick={submitValue}
         icon={<CheckIcon />}
       />
     </HStack>
