@@ -1,6 +1,6 @@
 # 🔫rushgun
 
-How complicated can this simple app can be or manifest?
+How complicated can this simple app be or manifest?
 
 Text data are stored in decentralized database using [Gun.js](gun.eco) in 3 levels
 1. public landing page
